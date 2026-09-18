@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* Theme is class-based: <html class="dark"> (the default) or no class for light. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-2: #f0f1f6;
+  --border: #e4e6ee;
+  --text: #14151c;
+  --muted: #6b6f80;
+  --accent: #6d5dfc;
+  --accent-2: #a855f7;
+  --accent-soft: #eeebff;
+  --danger: #e5484d;
+  --danger-soft: #fdecec;
+  --shadow: 0 1px 2px rgb(20 21 28 / 0.04), 0 4px 16px rgb(20 21 28 / 0.05);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #0c0d12;
+  --surface: #14151c;
+  --surface-2: #1b1d26;
+  --border: #262833;
+  --text: #ecedf3;
+  --muted: #8b8fa3;
+  --accent: #8b7dff;
+  --accent-2: #c084fc;
+  --accent-soft: #221f3d;
+  --danger: #ff6369;
+  --danger-soft: #3a1b1e;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --shadow-card: var(--shadow);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-slide-up: slide-up 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-shimmer: shimmer 1.4s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+@utility gradient-accent {
+  background-image: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+@utility field {
+  @apply w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-ink outline-none transition
+    placeholder:text-muted/70 focus:border-accent focus:ring-4 focus:ring-accent/15;
+}
+.field[aria-invalid="true"] {
+  @apply border-danger focus:ring-danger/15;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition
+    active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60 cursor-pointer;
+}
+@utility btn-primary {
+  @apply btn gradient-accent text-white shadow-lg shadow-accent/25 hover:brightness-110;
+}
+@utility btn-ghost {
+  @apply btn text-muted hover:bg-surface-2 hover:text-ink;
+}
+@utility btn-danger {
+  @apply btn bg-danger text-white hover:brightness-110;
+}
